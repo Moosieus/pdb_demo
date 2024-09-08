@@ -1,0 +1,21 @@
+services:
+  paradedb: # 5432/5432
+    image: paradedb/paradedb:latest
+    container_name: pdb_demo_paradedb
+    environment:
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_DB=${PDB_DEMO_DB}
+      - PARADEDB_TELEMETRY=false
+    healthcheck:
+      test: ["CMD", "pg_isready", "-U", "${POSTGRES_USER}"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    ports:
+      - "5432:5432"
+    volumes:
+      - pdb_demo_data:/var/lib/postgresql/data/
+
+volumes:
+  pdb_demo_data:
